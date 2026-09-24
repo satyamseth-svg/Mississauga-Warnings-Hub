@@ -52,13 +52,14 @@
   .assoc-head:hover{background:#faf9f6}
   .count{font-family:'Fraunces',serif;font-weight:700;font-size:22px;min-width:32px;text-align:center}
   .badges{display:flex;gap:5px}.b{width:10px;height:10px;border-radius:3px}
-  .b.w1{background:var(--grey)}.b.w2{background:var(--amber)}.b.w3{background:var(--accent)}
+  .b.w0{background:var(--edit)}.b.w1{background:var(--grey)}.b.w2{background:var(--amber)}.b.w3{background:var(--accent)}
   .who{flex:1;min-width:0}.who .nm{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1.1}
   .who .rl{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-top:3px}
   .flag{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:var(--accent);color:#fff;white-space:nowrap}
-  .flag.due{background:var(--amber)}.flag.rev{background:var(--edit)}
+  .flag.due{background:var(--amber)}.flag.rev{background:var(--edit)}.flag.gone{background:var(--grey)}
+  .assoc.gone{opacity:.62}.assoc.gone .who .nm{text-decoration:line-through;text-decoration-color:var(--muted)}
   .latest{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:5px 10px;border-radius:999px;white-space:nowrap}
-  .latest.l1{background:var(--grey-soft);color:var(--grey)}.latest.l2{background:var(--amber-soft);color:var(--amber)}.latest.l3{background:var(--accent-soft);color:var(--accent)}
+  .latest.l0{background:var(--edit-soft);color:var(--edit)}.latest.l1{background:var(--grey-soft);color:var(--grey)}.latest.l2{background:var(--amber-soft);color:var(--amber)}.latest.l3{background:var(--accent-soft);color:var(--accent)}
   .chev{color:var(--muted);transition:transform .18s}.assoc.open .chev{transform:rotate(90deg)}
 
   .detail{display:none;border-top:1px solid var(--line);background:#fbfaf7}
@@ -68,13 +69,13 @@
   .tl-line{position:absolute;top:11px;left:50%;width:100%;height:2px;background:var(--line);z-index:0}
   .tl-node:last-child .tl-line{display:none}
   .tl-dot{width:22px;height:22px;border-radius:50%;color:#fff;font-family:'Fraunces',serif;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;z-index:1}
-  .tl-dot.w1{background:var(--grey)}.tl-dot.w2{background:var(--amber)}.tl-dot.w3{background:var(--accent)}
+  .tl-dot.w0{background:var(--edit)}.tl-dot.w1{background:var(--grey)}.tl-dot.w2{background:var(--amber)}.tl-dot.w3{background:var(--accent)}
   .tl-date{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:5px;text-align:center}
 
   .rec{display:grid;grid-template-columns:50px 1fr;border-bottom:1px solid var(--line)}
   .rec:last-child{border-bottom:none}
   .rec-lvl{display:flex;align-items:flex-start;justify-content:center;padding-top:15px;font-family:'Fraunces',serif;font-weight:700;font-size:18px;color:#fff}
-  .rec-lvl.w1{background:var(--grey)}.rec-lvl.w2{background:var(--amber)}.rec-lvl.w3{background:var(--accent)}
+  .rec-lvl.w0{background:var(--edit)}.rec-lvl.w1{background:var(--grey)}.rec-lvl.w2{background:var(--amber)}.rec-lvl.w3{background:var(--accent)}
   .rec-body{padding:14px 18px}
   .rec-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
   .rec-reason{font-weight:600;font-size:14.5px}.rec-date{font-family:var(--mono);font-size:12px;color:var(--muted)}
@@ -145,6 +146,7 @@
       <div class="chip" data-f="3">3+</div>
       <div class="chip" data-f="revopen">Open reviews</div>
       <div class="chip" data-f="risk">Review due</div>
+      <div class="chip" data-f="left">Left company</div>
     </div>
   </div>
 
@@ -168,7 +170,7 @@
    Each warning has a stable id (used to attach reviews).
    ================================================= */
 const DATA = [
-  {name:"Rupinder Kaur",role:"Stower / Picker",warnings:[
+  {name:"Rupinder Kaur",role:"Stower / Picker",left:true,warnings:[
     {id:"rup-1",level:1,date:"2026-05-15",reason:"Mobile-phone policy non-compliance (zero-tolerance) & workplace expectations",note:"Formal letter from Santhosh Joseph (Shift Supervisor – Evening). Emailed 16 May. Cites insufficient improvement after prior verbal guidance."},
     {id:"rup-2",level:2,date:"2026-07-07",reason:"Performance — productivity decline (Picking / Stowing / Packing)",note:"May avg 85% → June avg 68%, below benchmark. Email subject read 'First Written Warning' but this is her 2nd per sequence. Improved the following week."},
     {id:"rup-3",level:3,date:"2026-07-17",reason:"Unapproved absence 15 Jul 2026 — no leave applied",note:"Absent 15/Jul; flagged by Santhosh. Reply + justification requested by end of shift."},
@@ -177,8 +179,9 @@ const DATA = [
     {id:"par-1",level:1,date:"2026-06-18",reason:"Mobile-phone policy non-compliance (zero-tolerance) & workplace expectations",note:"Formal letter from Santhosh Joseph. Emailed 20 Jun."},
     {id:"par-2",level:2,date:"2026-07-17",reason:"Unapproved absence 13 Jul 2026 — no leave applied in Bright",note:"Absent Mon 13/Jul; said he didn't get time to submit in Bright. Reply + justification requested."},
   ]},
-  {name:"Froilan Oyco",role:"Picker (IT-only)",warnings:[
+  {name:"Froilan Oyco",role:"Picker",warnings:[
     {id:"fro-1",level:1,date:"2026-06-17",reason:"Productivity — Picking below benchmark for 7 consecutive weeks",note:"7-week avg 45% vs 100% target (best week 52%). Formal first written warning."},
+    {id:"fro-2",level:2,date:"2026-09-24",reason:"Inconsistent performance — output volatile and below benchmark",note:"9-week run (20 Jul–20 Sep) averaging ~80%, ranging 58%–95%. Reframed from picking-decline to consistency, as recent picking recovered to 92–95% in several weeks while others dropped to 58–71%."},
   ]},
   {name:"Jeffery Morgan",role:"Returns Associate",warnings:[
     {id:"jef-1",level:1,date:"2026-06-15",reason:"Performance & operational concerns — returns processing",note:"Tiger/LKQ returns missed 7-day RGA window, VLOSS update delays, returns backlog, unfulfilled commitment to clear backlog, lack of proactive escalation. Apr–Jun 2026."},
@@ -186,11 +189,17 @@ const DATA = [
   {name:"Tanveer Kaur",role:"Warehouse Associate",warnings:[
     {id:"tan-1",level:1,date:"2026-05-15",reason:"Mobile-phone policy non-compliance (zero-tolerance) & workplace expectations",note:"Formal letter from Santhosh Joseph. Emailed 16 May. Cites insufficient improvement after prior verbal guidance."},
   ]},
-  {name:"Roshon Charles",role:"Warehouse Associate",warnings:[
+  {name:"Roshon Charles",role:"Warehouse Associate",left:true,warnings:[
     {id:"ros-1",level:1,date:"2026-06-18",reason:"Failure to meet performance standards — recurring stowing errors",note:"Formal letter from Santhosh Joseph. Emailed 23 Jun. 4 corrective actions; 7-working-day monitoring period."},
   ]},
   {name:"Jaskaran Singh",role:"Packer",warnings:[
     {id:"jas-1",level:1,date:"2026-07-20",reason:"Mobile-phone policy non-compliance & packaging errors causing customer issues",note:"From Santhosh Joseph. Lists 5 required corrective actions."},
+  ]},
+  {name:"Daniela Silva",role:"Picker / Stower",warnings:[
+    {id:"dan-1",level:0,date:"2026-09-24",reason:"First communication — performance & IT (working) hours shortfall",note:"Informal first communication (not a formal warning). 9-week run (20 Jul–20 Sep): performance avg ~81% and IT hours short every week (27–77%). Raised for awareness and improvement."},
+  ]},
+  {name:"Carlos Harrera",role:"Packer",left:true,warnings:[
+    {id:"car-1",level:1,date:"2026-08-11",reason:"Verbal — packing productivity below benchmark",note:"First verbal warning. 6-week packing WPI avg ~75% (69–82%). Documented for record."},
   ]},
 ];
 const REVIEW_DAYS=30;
@@ -200,7 +209,8 @@ const STORE_KEY="yyz3_warning_reviews_v1";
 let REV={};
 let activeFilter="all",query="",sortKey="count";
 
-const lv=n=>['','1st','2nd','3rd','4th','5th'][n]||n+'th';
+const lv=n=>n===0?'Note':(['','1st','2nd','3rd','4th','5th'][n]||n+'th');
+const lvBadge=n=>n===0?'!':n;
 const fmtDate=d=>{if(!d)return"";const x=new Date(d+'T00:00');return isNaN(x)?d:x.toLocaleDateString('en-CA',{day:'numeric',month:'short',year:'numeric'});};
 const fmtTs=t=>new Date(t).toLocaleString('en-CA',{day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit'});
 const daysSince=d=>{if(!d)return 1e9;const x=new Date(d+'T00:00');return isNaN(x)?1e9:(Date.now()-x)/864e5;};
@@ -222,19 +232,24 @@ function persist(){
 function setSave(t){const el=document.getElementById('save');if(el)el.textContent=t;}
 
 function stats(){
+  const active=DATA.filter(p=>!p.left);
   const total=allW().length;
-  const risk=DATA.filter(isRisk).length;
+  const risk=active.filter(isRisk).length;
+  const leftN=DATA.filter(p=>p.left).length;
   const openRev=allW().filter(w=>rev(w.id).status==="open").length;
-  const closedRev=allW().filter(w=>rev(w.id).status==="closed").length;
   document.getElementById('stats').innerHTML=`
-    <div class="stat"><div class="n">${DATA.length}</div><div class="l">Associates</div></div>
+    <div class="stat"><div class="n">${active.length}</div><div class="l">Active associates</div></div>
     <div class="stat"><div class="n">${total}</div><div class="l">Total warnings</div></div>
-    <div class="stat acc"><div class="n">${risk}</div><div class="l">At 3+ warnings</div></div>
+    <div class="stat acc"><div class="n">${risk}</div><div class="l">Active at 3+ warnings</div></div>
     <div class="stat acc"><div class="n">${openRev}</div><div class="l">Open reviews</div></div>
-    <div class="stat ok"><div class="n">${closedRev}</div><div class="l">Closed reviews</div></div>`;
+    <div class="stat"><div class="n">${leftN}</div><div class="l">Left company</div></div>`;
 }
 function match(p){
   const c=p.warnings.length;
+  // "all" default hides those who left; a dedicated "left" filter shows only them
+  if(activeFilter==="left"){if(!p.left)return false;}
+  else if(activeFilter==="all"){if(p.left)return false;}
+  else if(p.left)return false;  // any other filter is active-only
   if(activeFilter==="1"&&c!==1)return false;
   if(activeFilter==="2"&&c!==2)return false;
   if(activeFilter==="3"&&c<3)return false;
@@ -267,8 +282,9 @@ function render(){
     const badges=p.warnings.map(w=>`<span class="b w${Math.min(w.level,3)}"></span>`).join("");
     let flag=isRisk(p)?`<span class="flag">3+ at risk</span>`:(reviewDue(p)?`<span class="flag due">Review due</span>`:"");
     if(hasOpenReview(p))flag=`<span class="flag rev">Review open</span>`+flag;
+    if(p.left)flag=`<span class="flag gone">Left company</span>`+flag;
     const latestPill=latest?`<span class="latest l${Math.min(latest.level,3)}">Latest: ${lv(latest.level)}</span>`:"";
-    const tl=p.warnings.map(w=>`<div class="tl-node"><div class="tl-line"></div><div class="tl-dot w${Math.min(w.level,3)}">${w.level}</div><div class="tl-date">${w.date?fmtDate(w.date):'date TBC'}</div></div>`).join("");
+    const tl=p.warnings.map(w=>`<div class="tl-node"><div class="tl-line"></div><div class="tl-dot w${Math.min(w.level,3)}">${lvBadge(w.level)}</div><div class="tl-date">${w.date?fmtDate(w.date):'date TBC'}</div></div>`).join("");
     const recs=p.warnings.map(w=>{
       const rv=rev(w.id);
       const stCls=rv.status==="open"?"open":(rv.status==="closed"?"closed":"");
@@ -282,7 +298,7 @@ function render(){
         ? `<button class="mini reopen" onclick="reopen('${w.id}')">Reopen review</button>`
         : `<button class="mini close-r" onclick="closeReview('${w.id}')">Close review</button>`;
       return `<div class="rec">
-        <div class="rec-lvl w${Math.min(w.level,3)}">${w.level}</div>
+        <div class="rec-lvl w${Math.min(w.level,3)}">${lvBadge(w.level)}</div>
         <div class="rec-body">
           <div class="rec-top"><div class="rec-reason">${w.reason||'Reason not recorded'}</div><div class="rec-date">${w.date?fmtDate(w.date):'date TBC'}</div></div>
           ${w.note?`<div class="rec-note">${esc(w.note)}</div>`:''}
@@ -301,7 +317,7 @@ function render(){
         </div></div>`;
     }).join("");
     const openCls=wasOpen.has(p.name)?'open':'';
-    return `<div class="assoc ${isRisk(p)?'risk':''} ${openCls}" data-nm="${esc(p.name)}">
+    return `<div class="assoc ${isRisk(p)&&!p.left?'risk':''} ${p.left?'gone':''} ${openCls}" data-nm="${esc(p.name)}">
       <div class="assoc-head" onclick="if(!event.target.closest('.rev-block'))this.parentNode.classList.toggle('open')">
         <div class="count">${c}</div><div class="badges">${badges}</div>
         <div class="who"><div class="nm">${esc(p.name)}</div><div class="rl">${esc(p.role)}</div></div>
